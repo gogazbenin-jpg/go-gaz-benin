@@ -59,7 +59,7 @@ const Payment = () => {
   }
 
   return (
-    <PageTransition variant="slideLeft">
+    <PageTransition>
       <div className="flex min-h-screen flex-col bg-background px-6 pb-8 pt-12">
         <h1 className="mb-1 text-2xl font-bold text-foreground">Paiement</h1>
         <p className="mb-6 text-muted-foreground">Choisissez votre mode de paiement</p>

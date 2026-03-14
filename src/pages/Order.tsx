@@ -34,7 +34,7 @@ const Order = () => {
   };
 
   return (
-    <PageTransition variant="slideLeft">
+    <PageTransition>
       <div className="flex min-h-screen flex-col bg-background pb-8">
         <div className="px-6 pb-5 pt-12 rounded-b-3xl"
           style={{ background: `linear-gradient(135deg, ${brandColors.primary}, ${brandColors.primaryDark})` }}>

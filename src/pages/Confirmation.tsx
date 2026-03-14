@@ -26,7 +26,7 @@ const Confirmation = () => {
   if (!order) return null;
 
   return (
-    <PageTransition variant="fadeScale">
+    <PageTransition>
       <div className="flex min-h-screen flex-col items-center bg-background px-6 pb-8 pt-16">
         <motion.div
           className="mb-4 flex h-20 w-20 items-center justify-center rounded-full"
