@@ -9,7 +9,7 @@ const AuthStart = () => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background px-6">
       <div className="flex w-full max-w-sm flex-col items-center">
-        <img src={gogazLogoLight} alt="GoGaz" className="mb-2 w-[200px] object-contain" />
+        <img src={gogazLogo} alt="GoGaz" className="mb-2 w-[180px] object-contain" />
         <p className="mb-12 text-sm italic text-muted-foreground">
           Nous vous simplifions la vie
         </p>
