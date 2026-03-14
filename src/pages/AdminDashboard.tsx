@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Package, TrendingUp, Bike, LogOut, MapPin, Phone, ShoppingCart, DollarSign,
+  Package, TrendingUp, TrendingDown, Bike, LogOut, MapPin, Phone, ShoppingCart, DollarSign, CheckCircle,
 } from "lucide-react";
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
@@ -16,6 +16,7 @@ const orders = [
   { id: "CMD-103", client: "Mariam Bello", phone: "+229 95 22 33 44", address: "Cadjèhoun", product: "25kg", amount: 22000, status: "Livrée" },
   { id: "CMD-104", client: "Serge Dossou", phone: "+229 66 77 88 99", address: "Ganhi", product: "12kg", amount: 11000, status: "En attente" },
   { id: "CMD-105", client: "Fatou Koné", phone: "+229 91 12 34 56", address: "Gbégamey", product: "6kg", amount: 5500, status: "Livrée" },
+  { id: "CMD-106", client: "Awa Diallo", phone: "+229 96 00 11 22", address: "Zogbo", product: "12kg", amount: 11000, status: "Annulée" },
 ];
 
 const drivers = [
@@ -37,9 +38,9 @@ const generateChartData = () => {
 
 const chartData = generateChartData();
 const stats = {
-  jour: { commandes: 12, ca: 96000 },
-  semaine: { commandes: 78, ca: 624000 },
-  mois: { commandes: 312, ca: 2496000 },
+  jour: { commandes: 12, ca: 96000, trend: "up" as const },
+  semaine: { commandes: 78, ca: 624000, trend: "up" as const },
+  mois: { commandes: 312, ca: 2496000, trend: "down" as const },
 };
 type Period = "jour" | "semaine" | "mois";
 
@@ -66,14 +67,15 @@ const AdminDashboard = () => {
           {(["jour", "semaine", "mois"] as Period[]).map((p) => (
             <button key={p} onClick={() => setPeriod(p)}
               className={`rounded-xl px-4 py-2 text-sm font-semibold capitalize transition-colors ${
-                period === p ? "bg-primary text-primary-foreground" : "bg-[hsl(213,30%,18%)] text-[hsl(213,15%,60%)]"
-              }`}>{p}</button>
+                period === p ? "text-white" : "bg-[hsl(213,30%,18%)] text-[hsl(213,15%,60%)]"
+              }`}
+              style={period === p ? { backgroundColor: "#FF6B00" } : {}}>{p}</button>
           ))}
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          <StatCard icon={<ShoppingCart className="h-5 w-5" />} value={s.commandes.toString()} label="Commandes" />
-          <StatCard icon={<DollarSign className="h-5 w-5" />} value={formatPrice(s.ca)} label="Chiffre d'affaires" />
+          <StatCard icon={<ShoppingCart className="h-5 w-5" />} value={s.commandes.toString()} label="Commandes" trend={s.trend} />
+          <StatCard icon={<DollarSign className="h-5 w-5" />} value={formatPrice(s.ca)} label="Chiffre d'affaires" trend={s.trend} />
           <StatCard icon={<Bike className="h-5 w-5" />} value={drivers.filter(d => d.active).length.toString()} label="Livreurs actifs" />
           <StatCard icon={<TrendingUp className="h-5 w-5" />} value={formatPrice(Math.round(s.ca / Math.max(s.commandes, 1)))} label="Panier moyen" />
         </div>
@@ -97,11 +99,11 @@ const AdminDashboard = () => {
             {orders.map((o) => (
               <div key={o.id} className="rounded-xl border border-[hsl(213,20%,20%)] bg-[hsl(213,30%,15%)] p-3">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-semibold text-primary">{o.id}</span>
+                  <span className="text-xs font-semibold" style={{ color: "#FF6B00" }}>{o.id}</span>
                   <StatusBadge status={o.status} />
                 </div>
                 <div className="space-y-1 text-sm">
-                  <div className="flex items-center gap-2 text-[hsl(213,15%,75%)]"><Package className="h-3.5 w-3.5" /><span>{o.product} — <span className="font-semibold text-primary">{formatPrice(o.amount)}</span></span></div>
+                  <div className="flex items-center gap-2 text-[hsl(213,15%,75%)]"><Package className="h-3.5 w-3.5" /><span>{o.product} — <span className="font-semibold" style={{ color: "#FF6B00" }}>{formatPrice(o.amount)}</span></span></div>
                   <div className="flex items-center gap-2 text-[hsl(213,15%,65%)]"><MapPin className="h-3.5 w-3.5" /><span>{o.address}</span></div>
                   <div className="flex items-center gap-2 text-[hsl(213,15%,65%)]"><Phone className="h-3.5 w-3.5" /><span>{o.client} · {o.phone}</span></div>
                 </div>
@@ -115,7 +117,8 @@ const AdminDashboard = () => {
           <div className="space-y-2">
             {drivers.map((d) => (
               <div key={d.name} className="flex items-center gap-3 rounded-xl border border-[hsl(213,20%,20%)] bg-[hsl(213,30%,15%)] p-3">
-                <div className={`flex h-9 w-9 items-center justify-center rounded-full ${d.active ? "bg-primary/20 text-primary" : "bg-[hsl(213,20%,22%)] text-[hsl(213,15%,45%)]"}`}>
+                <div className={`flex h-9 w-9 items-center justify-center rounded-full`}
+                  style={{ backgroundColor: d.active ? "rgba(255,107,0,0.2)" : "hsl(213,20%,22%)", color: d.active ? "#FF6B00" : "hsl(213,15%,45%)" }}>
                   <Bike className="h-4 w-4" />
                 </div>
                 <div className="flex-1">
@@ -123,10 +126,10 @@ const AdminDashboard = () => {
                   <p className="text-xs text-[hsl(213,15%,55%)]">{d.phone}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-bold text-primary">{d.deliveries}</p>
+                  <p className="text-sm font-bold" style={{ color: "#FF6B00" }}>{d.deliveries}</p>
                   <p className="text-xs text-[hsl(213,15%,50%)]">livraisons</p>
                 </div>
-                <div className={`h-2.5 w-2.5 rounded-full ${d.active ? "bg-primary" : "bg-[hsl(213,15%,35%)]"}`} />
+                <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: d.active ? "#27AE60" : "hsl(213,15%,35%)" }} />
               </div>
             ))}
           </div>
@@ -136,22 +139,33 @@ const AdminDashboard = () => {
   );
 };
 
-const StatCard = ({ icon, value, label }: { icon: React.ReactNode; value: string; label: string }) => (
+const StatCard = ({ icon, value, label, trend }: { icon: React.ReactNode; value: string; label: string; trend?: "up" | "down" }) => (
   <div className="rounded-2xl border border-[hsl(213,20%,20%)] bg-[hsl(213,30%,15%)] p-4">
-    <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-primary/15 text-primary">{icon}</div>
+    <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(255,107,0,0.15)", color: "#FF6B00" }}>{icon}</div>
     <p className="text-lg font-bold leading-tight">{value}</p>
-    <p className="text-xs text-[hsl(213,15%,55%)]">{label}</p>
+    <div className="flex items-center gap-1">
+      <p className="text-xs text-[hsl(213,15%,55%)]">{label}</p>
+      {trend === "up" && <TrendingUp className="h-3 w-3" style={{ color: "#27AE60" }} />}
+      {trend === "down" && <TrendingDown className="h-3 w-3" style={{ color: "#E74C3C" }} />}
+    </div>
   </div>
 );
 
 const StatusBadge = ({ status }: { status: string }) => {
-  const colors: Record<string, string> = {
-    "En attente": "bg-[hsl(213,20%,22%)] text-[hsl(213,15%,60%)]",
-    "En route": "bg-primary/15 text-primary",
-    "En cours": "bg-[hsl(48,80%,50%)]/15 text-[hsl(48,80%,60%)]",
-    "Livrée": "bg-[#27AE60]/15 text-[#27AE60]",
+  const styles: Record<string, { bg: string; text: string }> = {
+    "Livrée": { bg: "rgba(39,174,96,0.15)", text: "#27AE60" },
+    "En cours": { bg: "rgba(255,107,0,0.15)", text: "#FF6B00" },
+    "En route": { bg: "rgba(255,107,0,0.15)", text: "#FF6B00" },
+    "En attente": { bg: "rgba(243,156,18,0.15)", text: "#F39C12" },
+    "Annulée": { bg: "rgba(231,76,60,0.15)", text: "#E74C3C" },
   };
-  return <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${colors[status] ?? colors["En attente"]}`}>{status}</span>;
+  const s = styles[status] ?? styles["En attente"];
+  return (
+    <span className="flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium" style={{ backgroundColor: s.bg, color: s.text }}>
+      {status === "Livrée" && <CheckCircle className="h-3 w-3" />}
+      {status}
+    </span>
+  );
 };
 
 export default AdminDashboard;

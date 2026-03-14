@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Bike, MapPin, Package, Phone, CheckCircle, TrendingUp, LogOut, Navigation } from "lucide-react";
+import { Bike, MapPin, Package, Phone, CheckCircle, TrendingUp, LogOut, Navigation, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import gogazLogoLight from "@/assets/gogaz-logo-light.jpg";
 
@@ -44,23 +44,28 @@ const DriverDashboard = () => {
           </button>
         </div>
         <h1 className="text-xl font-bold text-white">Tableau de bord</h1>
-        <p className="text-sm text-white/70">Livreur GoGaz</p>
+        <div className="flex items-center gap-2">
+          <p className="text-sm text-white/70">Livreur GoGaz</p>
+          <span className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold text-white" style={{ backgroundColor: "#27AE60" }}>
+            <Shield className="h-3 w-3" /> Certifié
+          </span>
+        </div>
       </div>
 
       <div className="px-4 mt-4">
         <div className="mb-5 grid grid-cols-2 gap-3">
           <div className="rounded-2xl border border-border bg-card p-4">
-            <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-primary/15">
-              <Bike className="h-5 w-5 text-primary" />
+            <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(255,107,0,0.15)" }}>
+              <Bike className="h-5 w-5" style={{ color: "#FF6B00" }} />
             </div>
             <p className="text-2xl font-bold text-foreground">{deliveredCount}</p>
             <p className="text-xs text-muted-foreground">Livraisons du jour</p>
           </div>
           <div className="rounded-2xl border border-border bg-card p-4">
-            <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-primary/15">
-              <TrendingUp className="h-5 w-5 text-primary" />
+            <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(255,107,0,0.15)" }}>
+              <TrendingUp className="h-5 w-5" style={{ color: "#FF6B00" }} />
             </div>
-            <p className="text-2xl font-bold text-primary">{formatPrice(earnings)}</p>
+            <p className="text-2xl font-bold" style={{ color: "#FF6B00" }}>{formatPrice(earnings)}</p>
             <p className="text-xs text-muted-foreground">Gains du jour</p>
           </div>
         </div>
@@ -71,30 +76,33 @@ const DriverDashboard = () => {
           {orders.map((order) => (
             <div key={order.id} className="rounded-2xl border border-border bg-card p-4">
               <div className="mb-3 flex items-center justify-between">
-                <span className="text-xs font-semibold text-primary">{order.id}</span>
-                <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                  order.status === "delivered" ? "bg-[#27AE60]/15 text-[#27AE60]"
-                  : order.status === "en_route" ? "bg-primary/15 text-primary"
-                  : "bg-muted text-muted-foreground"
-                }`}>{statusLabels[order.status]}</span>
+                <span className="text-xs font-semibold" style={{ color: "#FF6B00" }}>{order.id}</span>
+                <span className={`flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium`}
+                  style={{
+                    backgroundColor: order.status === "delivered" ? "rgba(39,174,96,0.15)" : order.status === "en_route" ? "rgba(255,107,0,0.15)" : "rgba(158,158,158,0.15)",
+                    color: order.status === "delivered" ? "#27AE60" : order.status === "en_route" ? "#FF6B00" : "#9E9E9E",
+                  }}>
+                  {order.status === "delivered" && <CheckCircle className="h-3 w-3" />}
+                  {statusLabels[order.status]}
+                </span>
               </div>
               <div className="mb-3 space-y-2">
-                <div className="flex items-center gap-2"><Package className="h-4 w-4 text-muted-foreground" /><p className="text-sm text-foreground">{order.product} — <span className="font-semibold text-primary">{formatPrice(order.amount)}</span></p></div>
+                <div className="flex items-center gap-2"><Package className="h-4 w-4 text-muted-foreground" /><p className="text-sm text-foreground">{order.product} — <span className="font-semibold" style={{ color: "#FF6B00" }}>{formatPrice(order.amount)}</span></p></div>
                 <div className="flex items-center gap-2"><MapPin className="h-4 w-4 text-muted-foreground" /><p className="text-sm text-foreground">{order.address}</p></div>
-                <div className="flex items-center gap-2"><Phone className="h-4 w-4 text-muted-foreground" /><a href={`tel:${order.phone.replace(/\s/g, "")}`} className="text-sm font-medium text-accent">{order.client} · {order.phone}</a></div>
+                <div className="flex items-center gap-2"><Phone className="h-4 w-4 text-muted-foreground" /><a href={`tel:${order.phone.replace(/\s/g, "")}`} className="text-sm font-medium" style={{ color: "#E65C00" }}>{order.client} · {order.phone}</a></div>
               </div>
               {order.status === "pending" && (
-                <Button onClick={() => updateStatus(order.id, "en_route")} className="h-11 w-full rounded-xl text-sm font-semibold gap-2">
+                <Button onClick={() => updateStatus(order.id, "en_route")} className="h-11 w-full rounded-xl text-sm font-semibold gap-2" style={{ backgroundColor: "#FF6B00" }}>
                   <Navigation className="h-4 w-4" /> Je suis en route
                 </Button>
               )}
               {order.status === "en_route" && (
-                <Button onClick={() => updateStatus(order.id, "delivered")} variant="outline" className="h-11 w-full rounded-xl border-primary text-sm font-semibold text-primary gap-2">
+                <Button onClick={() => updateStatus(order.id, "delivered")} variant="outline" className="h-11 w-full rounded-xl text-sm font-semibold gap-2" style={{ borderColor: "#FF6B00", color: "#FF6B00" }}>
                   <CheckCircle className="h-4 w-4" /> Livraison effectuée
                 </Button>
               )}
               {order.status === "delivered" && (
-                <div className="flex items-center justify-center gap-2 rounded-xl bg-[#27AE60]/10 py-2.5 text-sm font-medium text-[#27AE60]">
+                <div className="flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-medium" style={{ backgroundColor: "rgba(39,174,96,0.1)", color: "#27AE60" }}>
                   <CheckCircle className="h-4 w-4" /> Livrée
                 </div>
               )}
