@@ -34,8 +34,14 @@
     --input: 0 0% 90%;
     --ring: 25 100% 50%;
 
-    --success: 145 63% 32%;
-    --success-foreground: 145 63% 32%;
+    --success: 145 63% 42%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 36 90% 52%;
+    --warning-foreground: 0 0% 100%;
+
+    --error: 6 71% 51%;
+    --error-foreground: 0 0% 100%;
 
     --radius: 0.75rem;
 
