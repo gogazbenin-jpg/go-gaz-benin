@@ -35,7 +35,7 @@ const Tracking = () => {
   if (!order) return null;
 
   return (
-    <PageTransition variant="slideUp">
+    <PageTransition>
       <div className="flex min-h-screen flex-col bg-background px-6 pb-8 pt-12">
         <h1 className="mb-1 text-2xl font-bold text-foreground">Suivi de commande</h1>
         <p className="mb-2 text-sm text-muted-foreground">

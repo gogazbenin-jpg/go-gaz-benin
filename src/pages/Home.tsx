@@ -60,7 +60,7 @@ const Home = () => {
   ];
 
   return (
-    <PageTransition variant="default">
+    <PageTransition>
       <div className="relative flex min-h-screen flex-col bg-[#F5F5F5] pb-20">
         {/* Header with dynamic gradient */}
         <header

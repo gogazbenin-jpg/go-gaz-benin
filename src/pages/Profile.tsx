@@ -52,7 +52,7 @@ const Profile = () => {
   };
 
   return (
-    <PageTransition variant="slideBottom">
+    <PageTransition>
       <div className="min-h-screen bg-[#F5F5F5] pb-8">
         <div className="flex flex-col items-center px-6 pb-6 pt-12">
           <div className="relative mb-3">
