@@ -2,9 +2,8 @@ import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Zap, Lock, CreditCard, Star, MapPin, Phone, Mail, ArrowRight, Smartphone, Truck, Home as HomeIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import deliveryImg from "@/assets/onboarding-delivery.png";
 import stepsImg from "@/assets/onboarding-steps.png";
-import gogazLogoLight from "@/assets/gogaz-logo-light.jpg";
+import gogazLogo from "@/assets/gogaz-logo-new.png";
 
 const TOTAL_SLIDES = 4;
 
@@ -36,7 +35,7 @@ const Onboarding = () => {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-background overflow-hidden" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+    <div className="flex min-h-screen flex-col bg-white overflow-hidden" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       {current < TOTAL_SLIDES - 1 && (
         <button onClick={finish} className="absolute right-4 top-4 z-20 text-sm font-medium text-muted-foreground">Passer</button>
       )}
@@ -66,12 +65,14 @@ const Onboarding = () => {
 };
 
 const Slide1 = () => (
-  <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
-    <img src={gogazLogoLight} alt="GoGaz" className="mb-6 w-[180px] object-contain" />
-    <h1 className="mb-2 text-3xl font-extrabold text-foreground">
+  <div className="flex flex-1 flex-col items-center px-6 text-center bg-white">
+    <div className="flex w-full justify-center pt-20 pb-10">
+      <img src={gogazLogo} alt="GoGaz" className="w-[200px] h-auto object-contain block" />
+    </div>
+    <h1 className="mb-2 text-[28px] font-extrabold" style={{ color: "#1A1A1A" }}>
       Bienvenue sur <span className="text-primary">GoGaz</span>
     </h1>
-    <p className="max-w-xs text-muted-foreground">Le gaz livré chez vous en 30 minutes à Cotonou</p>
+    <p className="max-w-xs text-base" style={{ color: "#666666" }}>Le gaz livré chez vous en 30 minutes à Cotonou</p>
   </div>
 );
 
@@ -82,14 +83,18 @@ const Slide2 = () => {
     { icon: HomeIcon, text: "Je reçois mon gaz à domicile" },
   ];
   return (
-    <div className="flex flex-1 flex-col items-center justify-center px-6 text-center" style={{ background: "linear-gradient(180deg, #FF6B00, #E65C00)" }}>
-      <img src={stepsImg} alt="Étapes" className="mb-6 h-44 w-44 object-contain" />
-      <h2 className="mb-6 text-2xl font-extrabold text-white">Simple comme bonjour</h2>
-      <div className="flex flex-col gap-4 text-left">
+    <div className="flex flex-1 flex-col items-center px-6 text-center bg-white">
+      <div className="flex w-full justify-center pt-[60px] pb-6">
+        <img src={gogazLogo} alt="GoGaz" className="w-[160px] h-auto object-contain block" />
+      </div>
+      <h2 className="mb-6 text-2xl font-extrabold" style={{ color: "#1A1A1A" }}>Simple comme bonjour</h2>
+      <div className="flex flex-col gap-4 text-left w-full max-w-sm">
         {steps.map((step, i) => (
-          <div key={i} className="flex items-center gap-3 rounded-2xl bg-white/15 px-4 py-3">
-            <step.icon className="h-6 w-6 text-white" />
-            <span className="font-semibold text-white">{step.text}</span>
+          <div key={i} className="flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+              <step.icon className="h-5 w-5 text-primary" />
+            </div>
+            <span className="font-semibold" style={{ color: "#1A1A1A" }}>{step.text}</span>
           </div>
         ))}
       </div>
@@ -106,8 +111,11 @@ const Slide3 = () => {
     { icon: MapPin, text: "Livraison partout à Cotonou" },
   ];
   return (
-    <div className="flex flex-1 flex-col items-center justify-center px-6">
-      <h2 className="mb-8 text-center text-2xl font-extrabold text-foreground">
+    <div className="flex flex-1 flex-col items-center px-6 bg-white">
+      <div className="flex w-full justify-center pt-[60px] pb-6">
+        <img src={gogazLogo} alt="GoGaz" className="w-[160px] h-auto object-contain block" />
+      </div>
+      <h2 className="mb-8 text-center text-2xl font-extrabold" style={{ color: "#1A1A1A" }}>
         Pourquoi choisir <span className="text-primary">GoGaz</span> ?
       </h2>
       <div className="flex w-full max-w-sm flex-col gap-3">
@@ -116,7 +124,7 @@ const Slide3 = () => {
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10">
               <Icon className="h-5 w-5 text-primary" />
             </div>
-            <span className="text-sm font-medium text-foreground">{text}</span>
+            <span className="text-sm font-medium" style={{ color: "#1A1A1A" }}>{text}</span>
           </div>
         ))}
       </div>
@@ -125,19 +133,21 @@ const Slide3 = () => {
 };
 
 const Slide4 = ({ onStart }: { onStart: () => void }) => (
-  <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
-    <img src={gogazLogoLight} alt="GoGaz" className="mb-4 w-[180px] object-contain" />
-    <p className="mb-6 max-w-xs text-sm text-muted-foreground">
+  <div className="flex flex-1 flex-col items-center px-6 text-center bg-white">
+    <div className="flex w-full justify-center pt-[60px] pb-4">
+      <img src={gogazLogo} alt="GoGaz" className="w-[180px] h-auto object-contain block" />
+    </div>
+    <p className="mb-6 max-w-xs text-sm" style={{ color: "#666666" }}>
       GoGaz est une startup béninoise fondée à Cotonou, dédiée à rendre l'accès au gaz domestique simple, rapide et sécurisé pour chaque foyer et chaque entreprise.
     </p>
-    <div className="mb-8 flex flex-col items-start gap-2 text-sm text-muted-foreground">
+    <div className="mb-8 flex flex-col items-start gap-2 text-sm" style={{ color: "#666666" }}>
       {[
         { icon: Phone, text: "+229 01 52422654" },
         { icon: Mail, text: "contact@gogaz.bj" },
         { icon: MapPin, text: "Cotonou, Bénin" },
       ].map(({ icon: Icon, text }, i) => (
         <div key={i} className="flex items-center gap-2">
-          <Icon className="h-4 w-4 text-accent" />
+          <Icon className="h-4 w-4 text-primary" />
           <span>{text}</span>
         </div>
       ))}
