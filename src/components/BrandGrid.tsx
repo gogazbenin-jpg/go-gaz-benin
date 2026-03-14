@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Star, ChevronRight, Zap, Flag, ShieldCheck, Briefcase } from "lucide-react";
+import { motion } from "framer-motion";
 import oryxLogo from "@/assets/logos/oryx-logo.png";
 import beninPetroLogo from "@/assets/logos/benin-petro-logo.png";
 import pumaLogo from "@/assets/logos/puma-logo.png";
@@ -54,22 +55,26 @@ const brands = [
 
 export { brands };
 
-const BrandCard = ({ brand }: { brand: (typeof brands)[0] }) => {
+const BrandCard = ({ brand, index }: { brand: (typeof brands)[0]; index: number }) => {
   const navigate = useNavigate();
   const BadgeIcon = brand.badgeIcon;
 
   return (
-    <button
+    <motion.button
       onClick={() => navigate("/order")}
-      className="flex flex-col items-center gap-2 rounded-2xl border-2 bg-card p-4 text-center shadow-sm active:shadow-none"
+      className="flex flex-col items-center gap-2 rounded-2xl border-2 bg-card p-4 text-center shadow-sm"
       style={{ borderColor: brand.color + "30" }}
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: 0.1 * (index + 1) }}
+      whileTap={{ scale: 1.03, boxShadow: "0 8px 25px rgba(0,0,0,0.15)" }}
     >
       <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-xl" style={{ backgroundColor: brand.colorLight }}>
         <img src={brand.logo} alt={brand.name} className="h-12 w-12 object-contain" />
       </div>
       <p className="text-sm font-bold text-foreground">{brand.name}</p>
       <div className="flex items-center gap-1 text-xs text-muted-foreground">
-        <Star className="h-3 w-3 fill-primary text-primary" />
+        <Star className="h-3 w-3" style={{ fill: "#FF6B00", color: "#FF6B00" }} />
         <span className="font-semibold">{brand.rating}</span>
         <span>·</span>
         <span>{brand.bottles} bouteilles</span>
@@ -82,7 +87,7 @@ const BrandCard = ({ brand }: { brand: (typeof brands)[0] }) => {
         Voir les bouteilles
         <ChevronRight className="h-3 w-3" />
       </div>
-    </button>
+    </motion.button>
   );
 };
 
@@ -93,8 +98,8 @@ const BrandGrid = () => (
     </h2>
     <p className="mb-4 text-sm text-muted-foreground">4 marques disponibles à Cotonou</p>
     <div className="grid grid-cols-2 gap-3">
-      {brands.map((brand) => (
-        <BrandCard key={brand.id} brand={brand} />
+      {brands.map((brand, i) => (
+        <BrandCard key={brand.id} brand={brand} index={i} />
       ))}
     </div>
   </div>
