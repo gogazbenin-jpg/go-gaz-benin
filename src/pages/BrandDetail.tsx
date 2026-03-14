@@ -5,6 +5,17 @@ import BottleCarousel from "@/components/BottleCarousel";
 import { getBrand } from "@/data/bouteilles";
 import { brandColorMap } from "@/components/GasBottle";
 import PageTransition from "@/components/PageTransition";
+import oryxLogo from "@/assets/logos/oryx-logo.png";
+import beninPetroLogo from "@/assets/logos/benin-petro-logo.png";
+import pumaLogo from "@/assets/logos/puma-logo.png";
+import progazLogo from "@/assets/logos/progaz-logo.png";
+
+const brandLogos: Record<string, string> = {
+  oryx: oryxLogo,
+  "benin-petro": beninPetroLogo,
+  puma: pumaLogo,
+  progaz: progazLogo,
+};
 
 const BrandDetail = () => {
   const navigate = useNavigate();
@@ -15,7 +26,6 @@ const BrandDetail = () => {
   return (
     <PageTransition>
       <div className="flex min-h-screen flex-col bg-background pb-8">
-        {/* Header */}
         <div
           className="relative rounded-b-3xl px-5 pb-6 pt-10"
           style={{ background: `linear-gradient(135deg, ${colors.primary}, ${colors.primaryDark})` }}
@@ -31,16 +41,7 @@ const BrandDetail = () => {
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <img
-                src={
-                  brandId === "oryx" ? (await import("@/assets/logos/oryx-logo.png")).default
-                    : brandId === "benin-petro" ? (await import("@/assets/logos/benin-petro-logo.png")).default
-                    : brandId === "puma" ? (await import("@/assets/logos/puma-logo.png")).default
-                    : (await import("@/assets/logos/progaz-logo.png")).default
-                }
-                alt={brand.name}
-                className="h-10 w-10 object-contain"
-              />
+              <img src={brandLogos[brand.id] || oryxLogo} alt={brand.name} className="h-10 w-10 object-contain" />
             </motion.div>
             <h1 className="text-xl font-bold text-white">{brand.name}</h1>
             <p className="text-[13px] text-white/75">
@@ -49,7 +50,6 @@ const BrandDetail = () => {
           </div>
         </div>
 
-        {/* Carousel */}
         <div className="mt-5">
           <BottleCarousel brand={brand} />
         </div>
