@@ -61,7 +61,7 @@ const BrandCard = ({ brand, index }: { brand: (typeof brands)[0]; index: number 
 
   return (
     <motion.button
-      onClick={() => navigate("/order")}
+      onClick={() => navigate(`/brand/${brand.id}`)}
       className="flex flex-col items-center gap-2 rounded-2xl border-2 bg-card p-4 text-center shadow-sm"
       style={{ borderColor: brand.color + "30" }}
       initial={{ opacity: 0, y: 30 }}
