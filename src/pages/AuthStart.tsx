@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { UserPlus, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import gogazLogoLight from "@/assets/gogaz-logo-light.jpg";
+import gogazLogo from "@/assets/gogaz-logo-new.png";
 
 const AuthStart = () => {
   const navigate = useNavigate();
