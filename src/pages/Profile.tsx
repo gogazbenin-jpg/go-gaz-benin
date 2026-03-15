@@ -65,9 +65,6 @@ const Profile = () => {
           </div>
           <h1 className="text-xl font-bold text-foreground">{user.firstName} {user.lastName}</h1>
           <p className="mt-0.5 text-sm text-muted-foreground">{user.phone}</p>
-          <span className="mt-2 rounded-full px-3 py-0.5 text-xs font-semibold text-white" style={{ backgroundColor: "#FF6B00" }}>
-            {user.level}
-          </span>
         </div>
 
         <div className="space-y-0">
