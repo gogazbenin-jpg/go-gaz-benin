@@ -71,7 +71,7 @@ const Profile = () => {
           <SectionCard title="Mon compte">
             <MenuItem icon={User} label="Mes informations" />
             <MenuItem icon={MapPin} label="Mes adresses" />
-            <MenuItem icon={Bell} label="Notifications" />
+            
           </SectionCard>
 
           <SectionCard title="Mes commandes">
