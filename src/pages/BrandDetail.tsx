@@ -113,11 +113,10 @@ const BrandDetail = () => {
         <div className="fixed bottom-0 left-0 right-0 z-30 px-[4%] pb-5 pt-3 bg-gradient-to-t from-[#F5F5F5] via-[#F5F5F5] to-transparent">
           <button
             onClick={() => navigate("/order", { state: { bottle: selected } })}
-            className="flex h-[54px] w-full items-center justify-center gap-2 rounded-[14px] font-bold text-[16px] text-white active:scale-[0.97] transition-transform"
+            className="flex h-[54px] w-full items-center justify-center rounded-[14px] font-bold text-[16px] text-white active:scale-[0.97] transition-transform"
             style={{ background: "#FF6B00" }}
           >
-            <Truck className="h-[18px] w-[18px]" />
-            Commander {brand.name} {selected.weight} — {formatPrice(selected.price)}
+            Commander maintenant
           </button>
         </div>
       </div>
