@@ -76,7 +76,7 @@ const Profile = () => {
 
           <SectionCard title="Mes commandes">
             <MenuItem icon={Package} label="Historique commandes" detail={`${user.orders}`} />
-            <MenuItem icon={Star} label="Mes avis" />
+            
           </SectionCard>
 
           <SectionCard title="Avantages">
