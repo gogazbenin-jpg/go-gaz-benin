@@ -79,10 +79,6 @@ const Profile = () => {
             
           </SectionCard>
 
-          <SectionCard title="Avantages">
-            <MenuItem icon={Award} label="Points fidélité" detail={`${user.points} points`} />
-            <MenuItem icon={Gift} label="Parrainage" />
-          </SectionCard>
 
           <SectionCard title="Paramètres">
             <MenuItem icon={Shield} label="Sécurité" />
