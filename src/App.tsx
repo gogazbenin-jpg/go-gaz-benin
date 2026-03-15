@@ -11,7 +11,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
-import Order from "./pages/Order";
+
 import Payment from "./pages/Payment";
 import Confirmation from "./pages/Confirmation";
 import Tracking from "./pages/Tracking";
