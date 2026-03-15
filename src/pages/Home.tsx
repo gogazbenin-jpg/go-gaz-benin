@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Home as HomeIcon, ShoppingCart, User, MapPin,
-  Zap, Truck, Bell, Phone, Clock,
+  Zap, Truck, Bell, Clock,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
