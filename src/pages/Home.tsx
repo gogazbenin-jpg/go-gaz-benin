@@ -2,13 +2,12 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Home as HomeIcon, ShoppingCart, User, MapPin,
-  Zap, Truck, Bell, Phone, Clock,
+  Zap, Truck, Bell, Clock,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import BrandGrid from "@/components/BrandGrid";
-import gogazLogo from "@/assets/gogaz-logo.png";
-import gogazLogoLight from "@/assets/gogaz-logo-light.jpg";
+import gogazLogoNew from "@/assets/gogaz-logo-new.png";
 import { useWeatherGradient } from "@/hooks/useWeatherGradient";
 import PageTransition from "@/components/PageTransition";
 
@@ -67,28 +66,20 @@ const Home = () => {
           className="relative z-10 overflow-hidden rounded-b-3xl px-5 pb-5 pt-8"
           style={{ background: cssGradient, transition: "background 3s ease" }}
         >
-          <div className="flex items-center justify-between mb-1">
+          <div className="flex justify-center mb-4">
             <img
-              src={isDark ? gogazLogoLight : gogazLogo}
+              src={gogazLogoNew}
               alt="GoGaz"
               className="h-[45px] object-contain"
-              style={{ backgroundColor: "transparent" }}
             />
+          </div>
+
+          <div className="flex items-center justify-between">
+            <p className="text-[22px] font-bold text-white leading-tight">{greeting.msg}</p>
             <button className="relative p-1.5 rounded-full" style={{ background: "rgba(0,0,0,0.15)" }}>
               <Bell className="h-[22px] w-[22px] text-white" />
             </button>
           </div>
-
-          <div className="mb-3 ml-1">
-            <a href="https://wa.me/2290152422654" target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-1 text-white/85 text-[11px]">
-              <Phone className="h-3 w-3" />
-              <span>+229 01 52422654</span>
-            </a>
-            <p className="text-[11px] text-white/75 italic">Nous vous simplifions la vie !</p>
-          </div>
-
-          <p className="text-[22px] font-bold text-white leading-tight">{greeting.msg}</p>
           <p className="text-sm text-white/75 mt-0.5">{greeting.sub}</p>
 
           <p className="mt-2 text-[13px] flex items-center gap-1 text-white/85">

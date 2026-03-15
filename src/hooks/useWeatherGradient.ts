@@ -17,25 +17,15 @@ function getGradient(hour: number, weather?: WeatherData): [string, string] {
     return ["#1A1A2E", "#16213E"];
   }
 
-  // Morning 5h-12h
-  if (hour >= 5 && hour < 12) {
-    if (code >= 51 && code <= 67) return ["#555555", "#1A1A2E"];
-    if (code >= 2 && code <= 3) return ["#FF6B00", "#8B9DC3"];
-    if (code >= 0 && code <= 1) return ["#FF8C00", "#FFB347"];
-    return ["#FF8C00", "#FFB347"];
+  // Morning 5h-12h & Afternoon 12h-18h (semi-transparent orange)
+  if (hour >= 5 && hour < 18) {
+    if (code >= 51 && code <= 67) return ["rgba(100,80,60,0.75)", "rgba(80,60,40,0.65)"];
+    if (code >= 2 && code <= 3) return ["rgba(255,107,0,0.7)", "rgba(200,90,0,0.6)"];
+    return ["rgba(255,107,0,0.75)", "rgba(230,92,0,0.65)"];
   }
 
-  // Afternoon 12h-18h
-  if (hour >= 12 && hour < 18) {
-    if (code >= 95 && code <= 99) return ["#333333", "#1A1A1A"];
-    if (code >= 51 && code <= 67) return ["#555555", "#1A1A2E"];
-    if (code >= 2 && code <= 3) return ["#FF6B00", "#708090"];
-    if (code >= 0 && code <= 1) return ["#FF6B00", "#E65C00"];
-    return ["#FF6B00", "#E65C00"];
-  }
-
-  // Evening 18h-22h
-  return ["#E65C00", "#C0392B"];
+  // Evening 18h-22h (orange sombre vers noir)
+  return ["rgba(100,50,20,0.85)", "#1A1A2E"];
 }
 
 function isDarkGradient(colors: [string, string]): boolean {
