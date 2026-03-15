@@ -112,7 +112,10 @@ const BrandDetail = () => {
         {/* Fixed bottom button */}
         <div className="fixed bottom-0 left-0 right-0 z-30 px-[4%] pb-5 pt-3 bg-gradient-to-t from-[#F5F5F5] via-[#F5F5F5] to-transparent">
           <button
-            onClick={() => navigate("/order", { state: { bottle: selected } })}
+            onClick={() => {
+              localStorage.setItem("gogaz_order", JSON.stringify({ product: { label: `${brand.name} ${selected.weight}`, price: selected.price, weight: selected.weight }, address: "", brand: brand.id }));
+              navigate("/payment");
+            }}
             className="flex h-[54px] w-full items-center justify-center rounded-[14px] font-bold text-[16px] text-white active:scale-[0.97] transition-transform"
             style={{ background: "#FF6B00" }}
           >

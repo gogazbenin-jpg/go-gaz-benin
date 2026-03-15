@@ -11,7 +11,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
-import Order from "./pages/Order";
+
 import Payment from "./pages/Payment";
 import Confirmation from "./pages/Confirmation";
 import Tracking from "./pages/Tracking";
@@ -37,7 +37,7 @@ const AnimatedRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/order" element={<Order />} />
+        
         <Route path="/brand/:brandId" element={<BrandDetail />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/confirmation" element={<Confirmation />} />
