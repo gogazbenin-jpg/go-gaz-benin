@@ -110,19 +110,6 @@ const Home = () => {
 
         <BrandGrid />
 
-        <motion.div
-          className="relative z-10 mt-6 px-6"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.5 }}
-        >
-          <Button
-            onClick={() => navigate("/order")}
-            className="h-14 w-full rounded-2xl text-lg font-semibold"
-          >
-            Commander maintenant
-          </Button>
-        </motion.div>
 
         {/* Bottom nav */}
         <div className="fixed bottom-0 left-0 right-0 z-30 border-t border-border bg-white">
