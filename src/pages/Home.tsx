@@ -7,8 +7,7 @@ import {
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import BrandGrid from "@/components/BrandGrid";
-import gogazLogo from "@/assets/gogaz-logo.png";
-import gogazLogoLight from "@/assets/gogaz-logo-light.jpg";
+import gogazLogoNew from "@/assets/gogaz-logo-new.png";
 import { useWeatherGradient } from "@/hooks/useWeatherGradient";
 import PageTransition from "@/components/PageTransition";
 
