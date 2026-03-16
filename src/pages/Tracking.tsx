@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  CheckCircle, Circle, Truck, MapPin, Phone, Clock, Star, User,
+  CheckCircle, Circle, Truck, MapPin, Phone, Clock, Star,
+  Home as HomeIcon, ShoppingCart, User,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { GoogleMap, LoadScript, Marker, Polyline } from "@react-google-maps/api";
