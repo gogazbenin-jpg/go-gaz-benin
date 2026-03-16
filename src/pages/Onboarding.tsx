@@ -72,7 +72,7 @@ const Slide1 = () => (
     <h1 className="mb-2 text-[28px] font-extrabold" style={{ color: "#1A1A1A" }}>
       Bienvenue sur <span className="text-primary">GoGaz</span>
     </h1>
-    <p className="max-w-xs text-base" style={{ color: "#666666" }}>Le gaz livré chez vous en 30 minutes à Cotonou</p>
+    <p className="max-w-xs text-base" style={{ color: "#666666" }}>Le gaz livré chez vous en 15 à 30 minutes à Cotonou</p>
   </div>
 );
 
