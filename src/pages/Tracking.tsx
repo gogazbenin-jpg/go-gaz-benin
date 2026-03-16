@@ -343,6 +343,41 @@ const Tracking = () => {
             </div>
           </>
         )}
+        {/* Bottom nav */}
+        <div className="fixed bottom-0 left-0 right-0 z-30 border-t border-border bg-white">
+          <div className="mx-auto flex max-w-md items-center justify-around py-2">
+            {navTabs.map((tab) => {
+              const isActive = tab.id === "track";
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => navigate(tab.path)}
+                  className="relative flex flex-col items-center gap-0.5 px-4 py-1"
+                >
+                  <tab.icon
+                    className="h-5 w-5"
+                    style={{ color: isActive ? "#FF6B00" : "#9E9E9E" }}
+                  />
+                  <span
+                    className="text-xs"
+                    style={{
+                      color: isActive ? "#FF6B00" : "#9E9E9E",
+                      fontWeight: isActive ? 600 : 400,
+                    }}
+                  >
+                    {tab.label}
+                  </span>
+                  {isActive && (
+                    <div
+                      className="absolute -bottom-2 h-0.5 w-8 rounded-full"
+                      style={{ background: "#FF6B00" }}
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </PageTransition>
   );
