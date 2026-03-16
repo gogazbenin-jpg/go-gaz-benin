@@ -21,6 +21,7 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import Profile from "./pages/Profile";
 import BrandDetail from "./pages/BrandDetail";
+import OrderPage from "./pages/OrderPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
