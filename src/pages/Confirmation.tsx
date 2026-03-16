@@ -70,7 +70,7 @@ const Confirmation = () => {
           <Button onClick={() => navigate("/tracking")} className="h-14 w-full rounded-2xl text-lg font-semibold">
             Suivre ma commande
           </Button>
-          <Button onClick={() => { localStorage.removeItem("gogaz_order"); navigate("/"); }} variant="outline" className="h-14 w-full rounded-2xl text-lg font-semibold">
+          <Button onClick={() => { localStorage.removeItem("gogaz_order"); navigate("/home"); }} variant="outline" className="h-14 w-full rounded-2xl text-lg font-semibold">
             Retour à l'accueil
           </Button>
         </div>
