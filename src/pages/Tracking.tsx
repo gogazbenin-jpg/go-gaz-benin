@@ -1,132 +1,340 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { CheckCircle, Package, Truck, MapPin, Phone, User } from "lucide-react";
+import {
+  CheckCircle, Circle, Truck, MapPin, Phone, Clock, Star, User,
+} from "lucide-react";
 import { motion } from "framer-motion";
+import { GoogleMap, LoadScript, Marker, Polyline } from "@react-google-maps/api";
 import { Button } from "@/components/ui/button";
 import PageTransition from "@/components/PageTransition";
 
-const steps = [
-  { label: "Commande reçue", icon: CheckCircle },
-  { label: "Préparation en cours", icon: Package },
-  { label: "Livreur en route", icon: Truck },
-  { label: "Livraison effectuée", icon: CheckCircle },
+const COTONOU_CENTER = { lat: 6.3654, lng: 2.4183 };
+const DRIVER_POS = { lat: 6.3720, lng: 2.4100 };
+const CLIENT_POS = { lat: 6.3590, lng: 2.4250 };
+
+const MAPS_KEY = "AIzaSyDemo_placeholder_key";
+
+const mapContainerStyle = { width: "100%", height: "100%" };
+
+const mapOptions: google.maps.MapOptions = {
+  disableDefaultUI: true,
+  zoomControl: true,
+  streetViewControl: false,
+  mapTypeControl: false,
+  fullscreenControl: false,
+  styles: [
+    { featureType: "poi", stylers: [{ visibility: "off" }] },
+    { featureType: "transit", stylers: [{ visibility: "off" }] },
+    {
+      featureType: "water",
+      elementType: "geometry.fill",
+      stylers: [{ color: "#c9e8f7" }],
+    },
+    {
+      featureType: "road",
+      elementType: "geometry.fill",
+      stylers: [{ color: "#f0f0f0" }],
+    },
+    {
+      featureType: "road",
+      elementType: "geometry.stroke",
+      stylers: [{ color: "#e0e0e0" }],
+    },
+  ],
+};
+
+const routePath = [
+  DRIVER_POS,
+  { lat: 6.3700, lng: 2.4120 },
+  { lat: 6.3670, lng: 2.4160 },
+  { lat: 6.3640, lng: 2.4200 },
+  { lat: 6.3610, lng: 2.4230 },
+  CLIENT_POS,
 ];
 
-const driver = { name: "Koffi Mensah", phone: "+229 97 12 34 56" };
+const steps = [
+  { label: "Commande confirmée", time: "14h32", status: "done" as const },
+  { label: "Préparation en cours", time: "14h35", status: "done" as const },
+  { label: "Livreur en route", time: "", status: "active" as const },
+  { label: "Livraison effectuée", time: "", status: "pending" as const },
+];
 
+const StepIcon = ({ status }: { status: "done" | "active" | "pending" }) => {
+  if (status === "done")
+    return <CheckCircle size={22} style={{ color: "#27AE60" }} />;
+  if (status === "active")
+    return (
+      <motion.div
+        animate={{ scale: [1, 1.15, 1] }}
+        transition={{ duration: 1.5, repeat: Infinity }}
+      >
+        <Truck size={22} style={{ color: "#FF6B00" }} />
+      </motion.div>
+    );
+  return <Circle size={22} style={{ color: "#BDBDBD" }} />;
+};
+
+/* ── Empty state ── */
+const EmptyState = ({ onOrder }: { onOrder: () => void }) => (
+  <div className="flex flex-1 flex-col items-center justify-center px-6 text-center gap-4">
+    <MapPin size={48} style={{ color: "#BDBDBD" }} />
+    <p className="text-lg font-bold text-foreground">Aucune livraison en cours</p>
+    <p className="text-sm text-muted-foreground max-w-[260px]">
+      Passez une commande pour suivre votre livreur
+    </p>
+    <Button
+      onClick={onOrder}
+      className="h-12 rounded-2xl px-8 text-base font-semibold"
+      style={{ backgroundColor: "#FF6B00" }}
+    >
+      Commander maintenant
+    </Button>
+  </div>
+);
+
+/* ── Map section (with fallback) ── */
+const MapSection = () => {
+  const [mapError, setMapError] = useState(false);
+
+  if (mapError) {
+    return (
+      <div
+        className="flex items-center justify-center"
+        style={{ height: "55vh", background: "#eee" }}
+      >
+        <div className="text-center px-6">
+          <MapPin size={40} style={{ color: "#FF6B00" }} className="mx-auto mb-2" />
+          <p className="text-sm font-semibold text-foreground">Carte indisponible</p>
+          <p className="text-xs text-muted-foreground mt-1">
+            La cl{"\u00e9"} Google Maps n{"'"}est pas encore configur{"\u00e9"}e
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ height: "55vh", position: "relative" }}>
+      <LoadScript
+        googleMapsApiKey={MAPS_KEY}
+        onError={() => setMapError(true)}
+      >
+        <GoogleMap
+          mapContainerStyle={mapContainerStyle}
+          center={COTONOU_CENTER}
+          zoom={14}
+          options={mapOptions}
+        >
+          {/* Driver marker */}
+          <Marker
+            position={DRIVER_POS}
+            icon={{
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: 10,
+              fillColor: "#FF6B00",
+              fillOpacity: 1,
+              strokeColor: "#fff",
+              strokeWeight: 3,
+            }}
+          />
+          {/* Client marker */}
+          <Marker
+            position={CLIENT_POS}
+            icon={{
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: 10,
+              fillColor: "#4285F4",
+              fillOpacity: 1,
+              strokeColor: "#fff",
+              strokeWeight: 3,
+            }}
+          />
+          {/* Route */}
+          <Polyline
+            path={routePath}
+            options={{
+              strokeColor: "#FF6B00",
+              strokeOpacity: 0,
+              icons: [
+                {
+                  icon: {
+                    path: "M 0,-1 0,1",
+                    strokeOpacity: 1,
+                    strokeColor: "#FF6B00",
+                    scale: 3,
+                  },
+                  offset: "0",
+                  repeat: "15px",
+                },
+              ],
+            }}
+          />
+        </GoogleMap>
+      </LoadScript>
+
+      {/* Floating driver icon */}
+      <motion.div
+        className="absolute flex items-center justify-center rounded-full"
+        style={{
+          top: "35%",
+          left: "38%",
+          width: 40,
+          height: 40,
+          backgroundColor: "#FF6B00",
+          boxShadow: "0 4px 12px rgba(255,107,0,0.4)",
+        }}
+        animate={{ y: [0, -4, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+      >
+        <Truck size={20} color="#fff" />
+      </motion.div>
+    </div>
+  );
+};
+
+/* ── Main component ── */
 const Tracking = () => {
   const navigate = useNavigate();
-  const [currentStep, setCurrentStep] = useState(0);
-  const [order, setOrder] = useState<{ trackingId: string } | null>(null);
+  const [hasOrder, setHasOrder] = useState(false);
+  const [eta, setEta] = useState(22);
 
   useEffect(() => {
     const data = localStorage.getItem("gogaz_order");
-    if (data) setOrder(JSON.parse(data));
-    else { navigate("/"); return; }
+    setHasOrder(!!data);
+  }, []);
 
-    const timers = [
-      setTimeout(() => setCurrentStep(1), 3000),
-      setTimeout(() => setCurrentStep(2), 7000),
-      setTimeout(() => setCurrentStep(3), 12000),
-    ];
-    return () => timers.forEach(clearTimeout);
-  }, [navigate]);
-
-  if (!order) return null;
+  // Simulate ETA countdown
+  useEffect(() => {
+    if (!hasOrder) return;
+    const iv = setInterval(() => {
+      setEta((prev) => (prev > 15 ? prev - 1 : 15));
+    }, 30000);
+    return () => clearInterval(iv);
+  }, [hasOrder]);
 
   return (
     <PageTransition>
-      <div className="flex min-h-screen flex-col bg-background px-6 pb-8 pt-12">
-        <h1 className="mb-1 text-2xl font-bold text-foreground">Suivi de commande</h1>
-        <p className="mb-2 text-sm text-muted-foreground">
-          N° <span className="font-semibold" style={{ color: "#FF6B00" }}>{order.trackingId}</span>
-        </p>
+      <div className="flex min-h-screen flex-col bg-background pb-4">
+        {/* Header */}
+        <header
+          className="px-5 pb-4 pt-10"
+          style={{ background: "#FF6B00" }}
+        >
+          <h1 className="text-xl font-bold text-white">Suivi de livraison</h1>
+          <p className="text-sm text-white/80">En temps réel</p>
+        </header>
 
-        {/* Driver card */}
-        <div className="mb-8 mt-4 flex items-center gap-4 rounded-2xl border border-border bg-card p-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full" style={{ backgroundColor: "rgba(255,107,0,0.15)" }}>
-            <User className="h-6 w-6" style={{ color: "#FF6B00" }} />
-          </div>
-          <div className="flex-1">
-            <p className="font-semibold text-foreground">{driver.name}</p>
-            <p className="text-sm text-muted-foreground">Livreur assigné</p>
-          </div>
-          <a href={`tel:${driver.phone.replace(/\s/g, "")}`} className="flex h-10 w-10 items-center justify-center rounded-full text-white" style={{ backgroundColor: "#FF6B00" }}>
-            <Phone className="h-5 w-5" />
-          </a>
-        </div>
+        {!hasOrder ? (
+          <EmptyState onOrder={() => navigate("/order")} />
+        ) : (
+          <>
+            {/* Map */}
+            <MapSection />
 
-        {/* Progress bar */}
-        <div className="mb-6 h-2 w-full rounded-full overflow-hidden" style={{ backgroundColor: "#E0E0E0" }}>
-          <motion.div
-            className="h-full rounded-full"
-            style={{ backgroundColor: currentStep === 3 ? "#27AE60" : "#27AE60" }}
-            initial={{ width: "0%" }}
-            animate={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
-            transition={{ duration: 0.5 }}
-          />
-          {currentStep < 3 && (
-            <motion.div
-              className="h-full rounded-full -mt-2"
-              style={{ backgroundColor: "#FF6B00", width: "5%" }}
-              animate={{ opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            />
-          )}
-        </div>
+            {/* Bottom panel */}
+            <div
+              className="-mt-6 relative z-10 flex-1 rounded-t-3xl bg-white px-5 pt-5 pb-6"
+              style={{ boxShadow: "0 -4px 20px rgba(0,0,0,0.08)" }}
+            >
+              {/* Steps */}
+              <div className="flex flex-col gap-0 mb-5">
+                {steps.map((step, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <div className="flex flex-col items-center">
+                      <StepIcon status={step.status} />
+                      {i < steps.length - 1 && (
+                        <div
+                          className="w-0.5 my-1"
+                          style={{
+                            height: 28,
+                            backgroundColor:
+                              step.status === "done"
+                                ? "#27AE60"
+                                : step.status === "active"
+                                ? "#FF6B00"
+                                : "#E0E0E0",
+                          }}
+                        />
+                      )}
+                    </div>
+                    <div className="pt-0.5">
+                      <p
+                        className="text-sm"
+                        style={{
+                          fontWeight: step.status === "active" ? 700 : 500,
+                          color:
+                            step.status === "done"
+                              ? "#27AE60"
+                              : step.status === "active"
+                              ? "#FF6B00"
+                              : "#BDBDBD",
+                        }}
+                      >
+                        {step.label}
+                      </p>
+                      {step.time && (
+                        <p className="text-xs text-muted-foreground">{step.time}</p>
+                      )}
+                      {step.status === "active" && (
+                        <p className="text-xs font-bold" style={{ color: "#FF6B00" }}>
+                          En cours...
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
 
-        {/* Steps */}
-        <div className="relative mb-8 flex flex-col gap-0">
-          {steps.map((step, i) => {
-            const isCompleted = i < currentStep;
-            const isActive = i === currentStep;
-            const isPending = i > currentStep;
-            const Icon = step.icon;
-
-            const iconColor = isCompleted || (i === 3 && isActive) ? "#27AE60" : isActive ? "#FF6B00" : "#9E9E9E";
-            const textColor = isCompleted || (i === 3 && isActive) ? "#27AE60" : isActive ? "#FF6B00" : "#9E9E9E";
-            const bgColor = isCompleted || (i === 3 && isActive) ? "#27AE60" : isActive ? "#FF6B00" : "#E0E0E0";
-            const iconSize = i === 3 && isActive ? 32 : 24;
-
-            return (
-              <div key={i} className="flex items-start gap-4">
-                <div className="flex flex-col items-center">
+              {/* Progress bar */}
+              <div className="mb-5 h-2 w-full rounded-full overflow-hidden" style={{ backgroundColor: "#E0E0E0" }}>
+                <div className="flex h-full">
+                  <div className="h-full" style={{ width: "50%", backgroundColor: "#27AE60" }} />
                   <motion.div
-                    className="flex items-center justify-center rounded-full transition-colors duration-500"
-                    style={{
-                      width: 40, height: 40,
-                      backgroundColor: isPending ? "#E0E0E0" : bgColor,
-                    }}
-                    animate={isActive && i < 3 ? { scale: [1, 1.1, 1] } : {}}
-                    transition={isActive ? { duration: 2, repeat: Infinity } : {}}
-                  >
-                    <Icon size={iconSize} className="text-white" />
-                  </motion.div>
-                  {i < steps.length - 1 && (
-                    <div className="my-1 h-10 w-0.5 transition-colors duration-500" style={{ backgroundColor: i < currentStep ? "#27AE60" : "#E0E0E0" }} />
-                  )}
-                </div>
-                <div className="pt-2">
-                  <p className="font-medium transition-colors duration-500" style={{ color: textColor, fontWeight: isActive ? 700 : 500 }}>
-                    {i === 3 && isActive ? "Livré !" : step.label}
-                  </p>
-                  {isActive && i < 3 && <p className="text-xs" style={{ color: "#FF6B00" }}>En cours...</p>}
+                    className="h-full"
+                    style={{ width: "25%", backgroundColor: "#FF6B00" }}
+                    animate={{ opacity: [0.6, 1, 0.6] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  />
                 </div>
               </div>
-            );
-          })}
-        </div>
 
-        <div className="mb-6 rounded-2xl border border-border bg-card p-4 text-center">
-          <p className="text-sm text-muted-foreground">Téléphone du livreur</p>
-          <a href={`tel:${driver.phone.replace(/\s/g, "")}`} className="text-lg font-bold" style={{ color: "#FF6B00" }}>{driver.phone}</a>
-        </div>
+              {/* Driver info */}
+              <div className="flex items-center gap-3 mb-4 rounded-2xl border border-border bg-card p-3">
+                <div
+                  className="flex h-[50px] w-[50px] items-center justify-center rounded-full text-white font-bold text-lg"
+                  style={{ backgroundColor: "#FF6B00" }}
+                >
+                  AL
+                </div>
+                <div className="flex-1">
+                  <p className="font-bold text-foreground">Aymar L.</p>
+                  <div className="flex items-center gap-1 mt-0.5">
+                    <Star size={14} style={{ color: "#F5A623", fill: "#F5A623" }} />
+                    <span className="text-xs font-semibold" style={{ color: "#F5A623" }}>
+                      4.8
+                    </span>
+                  </div>
+                </div>
+                <a
+                  href="tel:+22997123456"
+                  className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white"
+                  style={{ backgroundColor: "#27AE60" }}
+                >
+                  <Phone size={16} />
+                  Appeler
+                </a>
+              </div>
 
-        <div className="mt-auto">
-          <Button onClick={() => { localStorage.removeItem("gogaz_order"); navigate("/"); }} variant="outline" className="h-14 w-full rounded-2xl text-lg font-semibold">
-            Retour à l'accueil
-          </Button>
-        </div>
+              {/* ETA */}
+              <div className="flex items-center gap-2 rounded-xl p-3" style={{ backgroundColor: "rgba(255,107,0,0.08)" }}>
+                <Clock size={20} style={{ color: "#FF6B00" }} />
+                <p className="text-sm font-semibold" style={{ color: "#FF6B00" }}>
+                  Livraison dans 15 à 30 min
+                </p>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </PageTransition>
   );

@@ -104,7 +104,7 @@ const Slide2 = () => {
 
 const Slide3 = () => {
   const features = [
-    { icon: Zap, text: "Livraison express 30 min" },
+    { icon: Zap, text: "Livraison express 15 à 30 min" },
     { icon: Lock, text: "Bouteilles certifiées et sécurisées" },
     { icon: CreditCard, text: "MTN Money, Moov Money ou cash" },
     { icon: Star, text: "Service disponible 7j/7" },

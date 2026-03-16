@@ -90,7 +90,7 @@ const BottleCard = ({
         {/* Delivery */}
         <div className="flex items-center gap-1.5 mt-2">
           <Clock size={14} style={{ color: "#999999" }} />
-          <span className="text-[12px]" style={{ color: "#999999" }}>Livraison en 30 min</span>
+          <span className="text-[12px]" style={{ color: "#999999" }}>Livraison en 15 à 30 min</span>
         </div>
 
         {/* CTA */}
