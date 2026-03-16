@@ -102,7 +102,7 @@ const Home = () => {
             <Zap className="h-5 w-5 text-white" />
             <Truck className="h-5 w-5 text-white" />
           </div>
-          <p className="text-2xl font-bold text-white">Votre gaz en 30 min</p>
+          <p className="text-2xl font-bold text-white">Votre gaz en 15 à 30 min</p>
           <p className="mt-1 text-sm text-white/80">
             Livraison rapide partout à Cotonou
           </p>

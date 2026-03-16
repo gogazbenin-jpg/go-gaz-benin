@@ -72,7 +72,7 @@ const Slide1 = () => (
     <h1 className="mb-2 text-[28px] font-extrabold" style={{ color: "#1A1A1A" }}>
       Bienvenue sur <span className="text-primary">GoGaz</span>
     </h1>
-    <p className="max-w-xs text-base" style={{ color: "#666666" }}>Le gaz livré chez vous en 30 minutes à Cotonou</p>
+    <p className="max-w-xs text-base" style={{ color: "#666666" }}>Le gaz livré chez vous en 15 à 30 minutes à Cotonou</p>
   </div>
 );
 
@@ -104,7 +104,7 @@ const Slide2 = () => {
 
 const Slide3 = () => {
   const features = [
-    { icon: Zap, text: "Livraison express 30 min" },
+    { icon: Zap, text: "Livraison express 15 à 30 min" },
     { icon: Lock, text: "Bouteilles certifiées et sécurisées" },
     { icon: CreditCard, text: "MTN Money, Moov Money ou cash" },
     { icon: Star, text: "Service disponible 7j/7" },
