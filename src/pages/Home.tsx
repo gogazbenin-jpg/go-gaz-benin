@@ -122,7 +122,7 @@ const Home = () => {
                   onClick={() => {
                     setActiveTab(tab.id);
                     if (tab.id === "home") navigate("/home");
-                    if (tab.id === "order") navigate("/brand/oryx");
+                    if (tab.id === "order") navigate("/order");
                     if (tab.id === "track") navigate("/tracking");
                     if (tab.id === "profile") navigate("/profile");
                   }}
