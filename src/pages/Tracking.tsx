@@ -194,6 +194,13 @@ const MapSection = () => {
 };
 
 /* ── Main component ── */
+const navTabs = [
+  { id: "home", icon: HomeIcon, label: "Accueil", path: "/home" },
+  { id: "order", icon: ShoppingCart, label: "Commander", path: "/order" },
+  { id: "track", icon: MapPin, label: "Suivi", path: "/tracking" },
+  { id: "profile", icon: User, label: "Profil", path: "/profile" },
+];
+
 const Tracking = () => {
   const navigate = useNavigate();
   const [hasOrder, setHasOrder] = useState(false);
