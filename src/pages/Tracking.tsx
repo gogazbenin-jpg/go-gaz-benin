@@ -222,7 +222,7 @@ const Tracking = () => {
 
   return (
     <PageTransition>
-      <div className="flex min-h-screen flex-col bg-background pb-4">
+      <div className="flex min-h-screen flex-col bg-background pb-20">
         {/* Header */}
         <header
           className="px-5 pb-4 pt-10"
