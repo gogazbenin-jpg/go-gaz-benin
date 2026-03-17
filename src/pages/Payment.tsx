@@ -98,7 +98,7 @@ const Payment = () => {
             <div className="border-t border-border pt-3">
               <div className="flex items-center justify-between">
                 <p className="font-semibold text-foreground">Total</p>
-                <p className="text-xl font-bold" style={{ color: "#FF6B00" }}>{formatPrice(order.product.price)}</p>
+                <p className="text-xl font-bold" style={{ color: "#27AE60" }}>{formatPrice(order.product.price)}</p>
               </div>
             </div>
           </div>
