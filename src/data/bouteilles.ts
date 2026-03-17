@@ -174,6 +174,16 @@ const allBrands: BrandData[] = [
     colorLight: "hsl(277, 42%, 94%)",
     bouteilles: [
       {
+        id: "progaz-3kg",
+        brandId: "progaz",
+        size: "3kg",
+        label: "Bouteille 3kg",
+        weight: "3 kg",
+        price: 3500,
+        description: "Idéale pour 1 à 2 personnes",
+        inStock: true,
+      },
+      {
         id: "progaz-6kg",
         brandId: "progaz",
         size: "6kg",
