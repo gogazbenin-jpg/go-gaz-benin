@@ -114,7 +114,7 @@ const BrandDetail = () => {
                   <span className="text-[15px] font-bold" style={{ color: "#1A1A1A" }}>
                     {brand.name} {b.weight}
                   </span>
-                  <span className="text-[17px] font-bold mt-0.5" style={{ color: b.size === "3kg" ? "#27AE60" : "#FF6B00" }}>
+                  <span className="text-[17px] font-bold mt-0.5" style={{ color: "#27AE60" }}>
                     {formatPrice(b.price)}
                   </span>
                   <span className="text-[11px] mt-0.5" style={{ color: "#888888" }}>

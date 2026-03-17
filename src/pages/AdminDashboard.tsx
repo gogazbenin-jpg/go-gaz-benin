@@ -103,7 +103,7 @@ const AdminDashboard = () => {
                   <StatusBadge status={o.status} />
                 </div>
                 <div className="space-y-1 text-sm">
-                  <div className="flex items-center gap-2 text-[hsl(213,15%,75%)]"><Package className="h-3.5 w-3.5" /><span>{o.product} — <span className="font-semibold" style={{ color: "#FF6B00" }}>{formatPrice(o.amount)}</span></span></div>
+                  <div className="flex items-center gap-2 text-[hsl(213,15%,75%)]"><Package className="h-3.5 w-3.5" /><span>{o.product} — <span className="font-semibold" style={{ color: "#27AE60" }}>{formatPrice(o.amount)}</span></span></div>
                   <div className="flex items-center gap-2 text-[hsl(213,15%,65%)]"><MapPin className="h-3.5 w-3.5" /><span>{o.address}</span></div>
                   <div className="flex items-center gap-2 text-[hsl(213,15%,65%)]"><Phone className="h-3.5 w-3.5" /><span>{o.client} · {o.phone}</span></div>
                 </div>
