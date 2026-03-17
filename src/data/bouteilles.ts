@@ -26,6 +26,16 @@ const allBrands: BrandData[] = [
     colorLight: "hsl(4, 68%, 95%)",
     bouteilles: [
       {
+        id: "oryx-3kg",
+        brandId: "oryx",
+        size: "3kg",
+        label: "Bouteille 3kg",
+        weight: "3 kg",
+        price: 3500,
+        description: "Idéale pour 1 à 2 personnes",
+        inStock: true,
+      },
+      {
         id: "oryx-6kg",
         brandId: "oryx",
         size: "6kg",
