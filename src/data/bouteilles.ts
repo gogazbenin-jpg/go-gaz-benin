@@ -1,7 +1,7 @@
 export interface Bouteille {
   id: string;
   brandId: string;
-  size: "6kg" | "12kg" | "25kg";
+  size: "3kg" | "6kg" | "12kg" | "25kg";
   label: string;
   weight: string;
   price: number;
@@ -25,6 +25,16 @@ const allBrands: BrandData[] = [
     color: "#E74C3C",
     colorLight: "hsl(4, 68%, 95%)",
     bouteilles: [
+      {
+        id: "oryx-3kg",
+        brandId: "oryx",
+        size: "3kg",
+        label: "Bouteille 3kg",
+        weight: "3 kg",
+        price: 3500,
+        description: "Idéale pour 1 à 2 personnes",
+        inStock: true,
+      },
       {
         id: "oryx-6kg",
         brandId: "oryx",
@@ -66,6 +76,16 @@ const allBrands: BrandData[] = [
     colorLight: "hsl(153, 64%, 94%)",
     bouteilles: [
       {
+        id: "bp-3kg",
+        brandId: "benin-petro",
+        size: "3kg",
+        label: "Bouteille 3kg",
+        weight: "3 kg",
+        price: 3500,
+        description: "Idéale pour 1 à 2 personnes",
+        inStock: true,
+      },
+      {
         id: "bp-6kg",
         brandId: "benin-petro",
         size: "6kg",
@@ -105,6 +125,16 @@ const allBrands: BrandData[] = [
     colorLight: "hsl(204, 55%, 94%)",
     bouteilles: [
       {
+        id: "puma-3kg",
+        brandId: "puma",
+        size: "3kg",
+        label: "Bouteille 3kg",
+        weight: "3 kg",
+        price: 3500,
+        description: "Idéale pour 1 à 2 personnes",
+        inStock: true,
+      },
+      {
         id: "puma-6kg",
         brandId: "puma",
         size: "6kg",
@@ -143,6 +173,16 @@ const allBrands: BrandData[] = [
     color: "#8E44AD",
     colorLight: "hsl(277, 42%, 94%)",
     bouteilles: [
+      {
+        id: "progaz-3kg",
+        brandId: "progaz",
+        size: "3kg",
+        label: "Bouteille 3kg",
+        weight: "3 kg",
+        price: 3500,
+        description: "Idéale pour 1 à 2 personnes",
+        inStock: true,
+      },
       {
         id: "progaz-6kg",
         brandId: "progaz",
