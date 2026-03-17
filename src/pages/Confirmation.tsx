@@ -61,7 +61,7 @@ const Confirmation = () => {
             </div>
             <div className="flex items-center gap-3">
               <Clock className="h-5 w-5 text-muted-foreground" />
-              <p className="text-sm text-foreground">Livraison estimée : 30-45 min</p>
+              <p className="text-sm text-foreground"><p className="text-sm text-foreground">Livraison estimée : 15-30 min</p></p>
             </div>
           </div>
         </div>
