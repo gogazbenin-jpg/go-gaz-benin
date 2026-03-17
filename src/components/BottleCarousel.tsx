@@ -80,7 +80,7 @@ const BottleCard = ({
         <p className="text-[13px] mt-1" style={{ color: "#666666" }}>{bottle.description}</p>
 
         {/* Price */}
-        <p className="text-[22px] font-bold mt-3" style={{ color: "#FF6B00" }}>
+        <p className="text-[22px] font-bold mt-3" style={{ color: "#27AE60" }}>
           {formatPrice(bottle.price)}
         </p>
         <p className="text-[11px] font-medium" style={{ color: "#27AE60" }}>
