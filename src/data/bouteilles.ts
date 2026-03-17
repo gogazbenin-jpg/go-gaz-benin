@@ -76,6 +76,16 @@ const allBrands: BrandData[] = [
     colorLight: "hsl(153, 64%, 94%)",
     bouteilles: [
       {
+        id: "bp-3kg",
+        brandId: "benin-petro",
+        size: "3kg",
+        label: "Bouteille 3kg",
+        weight: "3 kg",
+        price: 3500,
+        description: "Idéale pour 1 à 2 personnes",
+        inStock: true,
+      },
+      {
         id: "bp-6kg",
         brandId: "benin-petro",
         size: "6kg",
