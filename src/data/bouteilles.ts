@@ -1,7 +1,7 @@
 export interface Bouteille {
   id: string;
   brandId: string;
-  size: "6kg" | "12kg" | "25kg";
+  size: "3kg" | "6kg" | "12kg" | "25kg";
   label: string;
   weight: string;
   price: number;

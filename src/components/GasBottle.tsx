@@ -36,11 +36,12 @@ export const brandColorMap: Record<string, BrandColors> = {
 
 interface GasBottleProps {
   brandId: string;
-  size: "6kg" | "12kg" | "25kg";
+  size: "3kg" | "6kg" | "12kg" | "25kg";
   className?: string;
 }
 
 const sizeConfig = {
+  "3kg": { height: 80, width: 44, label: "3kg" },
   "6kg": { height: 100, width: 55, label: "6kg" },
   "12kg": { height: 135, width: 65, label: "12kg" },
   "25kg": { height: 170, width: 80, label: "25kg" },
