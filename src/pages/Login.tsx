@@ -102,6 +102,13 @@ const Login = () => {
             {loading ? <><Loader2 size={18} className="mr-2 animate-spin" /> Connexion...</> : "Se connecter"}
           </Button>
         </div>
+
+        <button
+          onClick={() => navigate("/driver/home")}
+          className="mt-8 self-center text-xs text-muted-foreground underline underline-offset-2"
+        >
+          Espace livreur
+        </button>
       </div>
     </div>
   );

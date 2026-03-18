@@ -17,6 +17,11 @@ import Confirmation from "./pages/Confirmation";
 import Tracking from "./pages/Tracking";
 import DriverLogin from "./pages/DriverLogin";
 import DriverDashboard from "./pages/DriverDashboard";
+import DriverHome from "./pages/DriverHome";
+import DriverDelivery from "./pages/DriverDelivery";
+import DriverValidation from "./pages/DriverValidation";
+import DriverHistory from "./pages/DriverHistory";
+import DriverProfile from "./pages/DriverProfile";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import Profile from "./pages/Profile";
@@ -46,6 +51,11 @@ const AnimatedRoutes = () => {
         <Route path="/tracking" element={<Tracking />} />
         <Route path="/driver" element={<DriverLogin />} />
         <Route path="/driver/dashboard" element={<DriverDashboard />} />
+        <Route path="/driver/home" element={<DriverHome />} />
+        <Route path="/driver/delivery" element={<DriverDelivery />} />
+        <Route path="/driver/validation" element={<DriverValidation />} />
+        <Route path="/driver/history" element={<DriverHistory />} />
+        <Route path="/driver/profile" element={<DriverProfile />} />
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/profile" element={<Profile />} />
