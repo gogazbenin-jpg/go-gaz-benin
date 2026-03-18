@@ -51,6 +51,11 @@ const AnimatedRoutes = () => {
         <Route path="/tracking" element={<Tracking />} />
         <Route path="/driver" element={<DriverLogin />} />
         <Route path="/driver/dashboard" element={<DriverDashboard />} />
+        <Route path="/driver/home" element={<DriverHome />} />
+        <Route path="/driver/delivery" element={<DriverDelivery />} />
+        <Route path="/driver/validation" element={<DriverValidation />} />
+        <Route path="/driver/history" element={<DriverHistory />} />
+        <Route path="/driver/profile" element={<DriverProfile />} />
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/profile" element={<Profile />} />
