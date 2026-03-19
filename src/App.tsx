@@ -59,6 +59,7 @@ const AnimatedRoutes = () => {
         <Route path="/driver/profile" element={<DriverProfile />} />
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/finances" element={<AdminFinances />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

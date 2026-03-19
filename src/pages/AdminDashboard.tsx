@@ -162,6 +162,8 @@ const AdminDashboard = () => {
           </div>
         ))}
       </div>
+
+      <AdminBottomNav />
     </div>
   );
 };
