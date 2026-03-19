@@ -6,6 +6,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import gogazLogoDark from "@/assets/gogaz-logo-dark.jpg";
+import AdminBottomNav from "@/components/AdminBottomNav";
 
 interface Order {
   id: string;
@@ -57,17 +58,11 @@ const AdminDashboard = () => {
   const livrees = orders.filter((o) => o.status === "livre").length;
 
   return (
-    <div className="min-h-screen bg-[hsl(0,0%,97%)]">
+    <div className="min-h-screen bg-[hsl(0,0%,97%)] pb-20">
       {/* Header */}
       <div className="bg-[hsl(213,40%,12%)] px-5 pt-8 pb-6">
         <div className="flex items-center justify-between mb-4">
           <img src={gogazLogoDark} alt="GoGaz" className="w-[90px] object-contain" />
-          <button
-            onClick={logout}
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-[hsl(213,30%,18%)] text-[hsl(213,15%,60%)]"
-          >
-            <LogOut className="h-4 w-4" />
-          </button>
         </div>
         <h1 className="text-xl font-bold text-white">Dashboard Admin</h1>
         <p className="text-sm text-[hsl(213,15%,60%)]">Gestion des commandes GoGaz</p>
@@ -167,6 +162,8 @@ const AdminDashboard = () => {
           </div>
         ))}
       </div>
+
+      <AdminBottomNav />
     </div>
   );
 };
