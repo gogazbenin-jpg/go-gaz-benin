@@ -1,170 +1,173 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Package, TrendingUp, TrendingDown, Bike, LogOut, MapPin, Phone, ShoppingCart, DollarSign, CheckCircle,
+  Package, LogOut, MapPin, Phone, CheckCircle, Truck, Clock, User,
 } from "lucide-react";
-import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
-} from "recharts";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import gogazLogoDark from "@/assets/gogaz-logo-dark.jpg";
+
+interface Order {
+  id: string;
+  client: string;
+  phone: string;
+  address: string;
+  product: string;
+  amount: number;
+  status: "en_cours" | "livre";
+}
+
+const initialOrders: Order[] = [
+  { id: "CMD-201", client: "Koffi Mensah", phone: "+229 96 00 00 00", address: "Akpakpa, rue 145", product: "Oryx 12kg", amount: 11000, status: "en_cours" },
+  { id: "CMD-202", client: "Aïcha Soulé", phone: "+229 96 45 67 89", address: "Fidjrossè, carrefour Erevan", product: "Bénin Pétro 6kg", amount: 5500, status: "en_cours" },
+  { id: "CMD-203", client: "Patrick Agossou", phone: "+229 97 88 12 34", address: "Cadjèhoun, près du stade", product: "Puma 25kg", amount: 22000, status: "livre" },
+  { id: "CMD-204", client: "Mariam Bello", phone: "+229 95 22 33 44", address: "Ganhi, rue 302", product: "ProGaz 12kg", amount: 11000, status: "en_cours" },
+  { id: "CMD-205", client: "Serge Dossou", phone: "+229 66 77 88 99", address: "Gbégamey, lot 45", product: "Oryx 6kg", amount: 5500, status: "livre" },
+];
 
 const formatPrice = (n: number) => n.toLocaleString("fr-FR") + " FCFA";
 
-const orders = [
-  { id: "CMD-101", client: "Aïcha Soulé", phone: "+229 96 45 67 89", address: "Akpakpa, Rue 123", product: "12kg", amount: 11000, status: "En cours" },
-  { id: "CMD-102", client: "Patrick Agossou", phone: "+229 97 88 12 34", address: "Fidjrossè", product: "6kg", amount: 5500, status: "En route" },
-  { id: "CMD-103", client: "Mariam Bello", phone: "+229 95 22 33 44", address: "Cadjèhoun", product: "25kg", amount: 22000, status: "Livrée" },
-  { id: "CMD-104", client: "Serge Dossou", phone: "+229 66 77 88 99", address: "Ganhi", product: "12kg", amount: 11000, status: "En attente" },
-  { id: "CMD-105", client: "Fatou Koné", phone: "+229 91 12 34 56", address: "Gbégamey", product: "6kg", amount: 5500, status: "Livrée" },
-  { id: "CMD-106", client: "Awa Diallo", phone: "+229 96 00 11 22", address: "Zogbo", product: "12kg", amount: 11000, status: "Annulée" },
-];
-
-const drivers = [
-  { name: "Koffi Mensah", phone: "+229 97 12 34 56", deliveries: 5, active: true },
-  { name: "Moussa Yao", phone: "+229 96 55 66 77", deliveries: 3, active: true },
-  { name: "Jean Hounton", phone: "+229 95 11 22 33", deliveries: 0, active: false },
-];
-
-const generateChartData = () => {
-  const data = [];
-  const now = new Date();
-  for (let i = 29; i >= 0; i--) {
-    const d = new Date(now);
-    d.setDate(d.getDate() - i);
-    data.push({ day: `${d.getDate()}/${d.getMonth() + 1}`, commandes: Math.floor(Math.random() * 25) + 5 });
-  }
-  return data;
-};
-
-const chartData = generateChartData();
-const stats = {
-  jour: { commandes: 12, ca: 96000, trend: "up" as const },
-  semaine: { commandes: 78, ca: 624000, trend: "up" as const },
-  mois: { commandes: 312, ca: 2496000, trend: "down" as const },
-};
-type Period = "jour" | "semaine" | "mois";
-
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const [period, setPeriod] = useState<Period>("jour");
+  const { toast } = useToast();
+  const [orders, setOrders] = useState<Order[]>(initialOrders);
 
-  useEffect(() => { if (!localStorage.getItem("gogaz_admin")) navigate("/admin"); }, [navigate]);
+  useEffect(() => {
+    if (!localStorage.getItem("gogaz_admin")) navigate("/admin", { replace: true });
+  }, [navigate]);
 
-  const s = stats[period];
-
-  return (
-    <div className="min-h-screen bg-[hsl(213,40%,12%)] text-white">
-      <div className="flex items-center justify-between px-5 pt-8 pb-4">
-        <img src={gogazLogoDark} alt="GoGaz Admin" className="w-[100px] object-contain" />
-        <button onClick={() => { localStorage.removeItem("gogaz_admin"); navigate("/admin"); }}
-          className="flex h-9 w-9 items-center justify-center rounded-xl bg-[hsl(213,30%,18%)] text-[hsl(213,15%,60%)]">
-          <LogOut className="h-4 w-4" />
-        </button>
-      </div>
-
-      <div className="px-5 pb-10 space-y-5">
-        <div className="flex gap-2">
-          {(["jour", "semaine", "mois"] as Period[]).map((p) => (
-            <button key={p} onClick={() => setPeriod(p)}
-              className={`rounded-xl px-4 py-2 text-sm font-semibold capitalize transition-colors ${
-                period === p ? "text-white" : "bg-[hsl(213,30%,18%)] text-[hsl(213,15%,60%)]"
-              }`}
-              style={period === p ? { backgroundColor: "#FF6B00" } : {}}>{p}</button>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <StatCard icon={<ShoppingCart className="h-5 w-5" />} value={s.commandes.toString()} label="Commandes" trend={s.trend} />
-          <StatCard icon={<DollarSign className="h-5 w-5" />} value={formatPrice(s.ca)} label="Chiffre d'affaires" trend={s.trend} />
-          <StatCard icon={<Bike className="h-5 w-5" />} value={drivers.filter(d => d.active).length.toString()} label="Livreurs actifs" />
-          <StatCard icon={<TrendingUp className="h-5 w-5" />} value={formatPrice(Math.round(s.ca / Math.max(s.commandes, 1)))} label="Panier moyen" />
-        </div>
-
-        <div className="rounded-2xl border border-[hsl(213,20%,20%)] bg-[hsl(213,30%,15%)] p-4">
-          <h2 className="mb-3 text-sm font-semibold text-[hsl(213,15%,60%)]">Commandes — 30 derniers jours</h2>
-          <ResponsiveContainer width="100%" height={180}>
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(213,20%,22%)" />
-              <XAxis dataKey="day" tick={{ fill: "hsl(213,15%,50%)", fontSize: 10 }} interval={4} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fill: "hsl(213,15%,50%)", fontSize: 10 }} axisLine={false} tickLine={false} width={30} />
-              <Tooltip contentStyle={{ background: "hsl(213,30%,18%)", border: "1px solid hsl(213,20%,25%)", borderRadius: 12, color: "#fff", fontSize: 12 }} />
-              <Bar dataKey="commandes" fill="#FF6B00" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-
-        <div>
-          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-[hsl(213,15%,60%)]">Commandes récentes</h2>
-          <div className="space-y-2">
-            {orders.map((o) => (
-              <div key={o.id} className="rounded-xl border border-[hsl(213,20%,20%)] bg-[hsl(213,30%,15%)] p-3">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-semibold" style={{ color: "#FF6B00" }}>{o.id}</span>
-                  <StatusBadge status={o.status} />
-                </div>
-                <div className="space-y-1 text-sm">
-                  <div className="flex items-center gap-2 text-[hsl(213,15%,75%)]"><Package className="h-3.5 w-3.5" /><span>{o.product} — <span className="font-semibold" style={{ color: "#27AE60" }}>{formatPrice(o.amount)}</span></span></div>
-                  <div className="flex items-center gap-2 text-[hsl(213,15%,65%)]"><MapPin className="h-3.5 w-3.5" /><span>{o.address}</span></div>
-                  <div className="flex items-center gap-2 text-[hsl(213,15%,65%)]"><Phone className="h-3.5 w-3.5" /><span>{o.client} · {o.phone}</span></div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-[hsl(213,15%,60%)]">Livreurs</h2>
-          <div className="space-y-2">
-            {drivers.map((d) => (
-              <div key={d.name} className="flex items-center gap-3 rounded-xl border border-[hsl(213,20%,20%)] bg-[hsl(213,30%,15%)] p-3">
-                <div className={`flex h-9 w-9 items-center justify-center rounded-full`}
-                  style={{ backgroundColor: d.active ? "rgba(255,107,0,0.2)" : "hsl(213,20%,22%)", color: d.active ? "#FF6B00" : "hsl(213,15%,45%)" }}>
-                  <Bike className="h-4 w-4" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-white">{d.name}</p>
-                  <p className="text-xs text-[hsl(213,15%,55%)]">{d.phone}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-bold" style={{ color: "#FF6B00" }}>{d.deliveries}</p>
-                  <p className="text-xs text-[hsl(213,15%,50%)]">livraisons</p>
-                </div>
-                <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: d.active ? "#27AE60" : "hsl(213,15%,35%)" }} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const StatCard = ({ icon, value, label, trend }: { icon: React.ReactNode; value: string; label: string; trend?: "up" | "down" }) => (
-  <div className="rounded-2xl border border-[hsl(213,20%,20%)] bg-[hsl(213,30%,15%)] p-4">
-    <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl" style={{ backgroundColor: "rgba(255,107,0,0.15)", color: "#FF6B00" }}>{icon}</div>
-    <p className="text-lg font-bold leading-tight">{value}</p>
-    <div className="flex items-center gap-1">
-      <p className="text-xs text-[hsl(213,15%,55%)]">{label}</p>
-      {trend === "up" && <TrendingUp className="h-3 w-3" style={{ color: "#27AE60" }} />}
-      {trend === "down" && <TrendingDown className="h-3 w-3" style={{ color: "#E74C3C" }} />}
-    </div>
-  </div>
-);
-
-const StatusBadge = ({ status }: { status: string }) => {
-  const styles: Record<string, { bg: string; text: string }> = {
-    "Livrée": { bg: "rgba(39,174,96,0.15)", text: "#27AE60" },
-    "En cours": { bg: "rgba(255,107,0,0.15)", text: "#FF6B00" },
-    "En route": { bg: "rgba(255,107,0,0.15)", text: "#FF6B00" },
-    "En attente": { bg: "rgba(243,156,18,0.15)", text: "#F39C12" },
-    "Annulée": { bg: "rgba(231,76,60,0.15)", text: "#E74C3C" },
+  const markDelivered = (id: string) => {
+    setOrders((prev) =>
+      prev.map((o) => (o.id === id ? { ...o, status: "livre" as const } : o))
+    );
+    toast({ title: "Statut mis à jour", description: `${id} marquée comme livrée.` });
   };
-  const s = styles[status] ?? styles["En attente"];
+
+  const contactClient = (phone: string, name: string) => {
+    window.open(`tel:${phone.replace(/\s/g, "")}`, "_self");
+    toast({ title: "Appel", description: `Appel vers ${name}...` });
+  };
+
+  const logout = () => {
+    localStorage.removeItem("gogaz_admin");
+    navigate("/admin", { replace: true });
+  };
+
+  const enCours = orders.filter((o) => o.status === "en_cours").length;
+  const livrees = orders.filter((o) => o.status === "livre").length;
+
   return (
-    <span className="flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium" style={{ backgroundColor: s.bg, color: s.text }}>
-      {status === "Livrée" && <CheckCircle className="h-3 w-3" />}
-      {status}
-    </span>
+    <div className="min-h-screen bg-[hsl(0,0%,97%)]">
+      {/* Header */}
+      <div className="bg-[hsl(213,40%,12%)] px-5 pt-8 pb-6">
+        <div className="flex items-center justify-between mb-4">
+          <img src={gogazLogoDark} alt="GoGaz" className="w-[90px] object-contain" />
+          <button
+            onClick={logout}
+            className="flex h-9 w-9 items-center justify-center rounded-xl bg-[hsl(213,30%,18%)] text-[hsl(213,15%,60%)]"
+          >
+            <LogOut className="h-4 w-4" />
+          </button>
+        </div>
+        <h1 className="text-xl font-bold text-white">Dashboard Admin</h1>
+        <p className="text-sm text-[hsl(213,15%,60%)]">Gestion des commandes GoGaz</p>
+      </div>
+
+      {/* Stats */}
+      <div className="px-5 -mt-3">
+        <div className="grid grid-cols-2 gap-3">
+          <div className="rounded-2xl bg-white p-4 shadow-sm">
+            <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-[hsl(25,100%,50%,0.12)]">
+              <Truck className="h-5 w-5" style={{ color: "#FF6B00" }} />
+            </div>
+            <p className="text-2xl font-bold text-[hsl(0,0%,10%)]">{enCours}</p>
+            <p className="text-xs text-[hsl(0,0%,50%)]">En cours</p>
+          </div>
+          <div className="rounded-2xl bg-white p-4 shadow-sm">
+            <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-[hsl(145,50%,50%,0.12)]">
+              <CheckCircle className="h-5 w-5" style={{ color: "#27AE60" }} />
+            </div>
+            <p className="text-2xl font-bold text-[hsl(0,0%,10%)]">{livrees}</p>
+            <p className="text-xs text-[hsl(0,0%,50%)]">Livrées</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Orders */}
+      <div className="px-5 pt-5 pb-10 space-y-3">
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-[hsl(0,0%,45%)]">
+          Commandes ({orders.length})
+        </h2>
+
+        {orders.map((o) => (
+          <div
+            key={o.id}
+            className="rounded-2xl bg-white p-4 shadow-sm"
+          >
+            {/* Header row */}
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-xs font-bold" style={{ color: "#FF6B00" }}>{o.id}</span>
+              <span
+                className="flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold"
+                style={
+                  o.status === "livre"
+                    ? { backgroundColor: "hsl(145,50%,50%,0.12)", color: "#27AE60" }
+                    : { backgroundColor: "hsl(25,100%,50%,0.12)", color: "#FF6B00" }
+                }
+              >
+                {o.status === "livre" ? (
+                  <><CheckCircle className="h-3 w-3" /> Livrée</>
+                ) : (
+                  <><Clock className="h-3 w-3" /> En cours</>
+                )}
+              </span>
+            </div>
+
+            {/* Details */}
+            <div className="space-y-1.5 text-sm mb-4">
+              <div className="flex items-center gap-2 text-[hsl(0,0%,20%)]">
+                <User className="h-4 w-4 text-[hsl(0,0%,55%)]" />
+                <span className="font-semibold">{o.client}</span>
+              </div>
+              <div className="flex items-center gap-2 text-[hsl(0,0%,35%)]">
+                <Package className="h-4 w-4 text-[hsl(0,0%,55%)]" />
+                <span>{o.product} — <span className="font-semibold" style={{ color: "#27AE60" }}>{formatPrice(o.amount)}</span></span>
+              </div>
+              <div className="flex items-center gap-2 text-[hsl(0,0%,35%)]">
+                <MapPin className="h-4 w-4 text-[hsl(0,0%,55%)]" />
+                <span>{o.address}</span>
+              </div>
+              <div className="flex items-center gap-2 text-[hsl(0,0%,35%)]">
+                <Phone className="h-4 w-4 text-[hsl(0,0%,55%)]" />
+                <span>{o.phone}</span>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex gap-2">
+              {o.status === "en_cours" && (
+                <Button
+                  onClick={() => markDelivered(o.id)}
+                  className="flex-1 h-10 rounded-xl text-sm font-semibold"
+                  style={{ backgroundColor: "#27AE60" }}
+                >
+                  <CheckCircle className="mr-1.5 h-4 w-4" />
+                  Marquer livrée
+                </Button>
+              )}
+              <Button
+                variant="outline"
+                onClick={() => contactClient(o.phone, o.client)}
+                className="flex-1 h-10 rounded-xl text-sm font-semibold border-[hsl(0,0%,85%)]"
+              >
+                <Phone className="mr-1.5 h-4 w-4" />
+                Contacter
+              </Button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 
