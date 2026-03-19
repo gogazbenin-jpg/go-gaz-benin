@@ -35,6 +35,25 @@ const Login = () => {
     setError("");
 
     setTimeout(() => {
+      const emailLower = contact.trim().toLowerCase();
+
+      // Admin role
+      if (emailLower === "admin@gogaz.com" && password === "123456") {
+        localStorage.setItem("gogaz_admin", JSON.stringify({ email: emailLower, role: "admin" }));
+        setLoading(false);
+        navigate("/admin/dashboard", { replace: true });
+        return;
+      }
+
+      // Driver role
+      if (emailLower === "livreur@gogaz.com" && password === "123456") {
+        localStorage.setItem("gogaz_driver", JSON.stringify({ email: emailLower, role: "livreur" }));
+        setLoading(false);
+        navigate("/driver/home", { replace: true });
+        return;
+      }
+
+      // Client role
       const stored = localStorage.getItem("gogaz_user");
       if (!stored) { handleFailure(); return; }
       const user = JSON.parse(stored);
@@ -47,7 +66,7 @@ const Login = () => {
       localStorage.setItem("gogaz_session", JSON.stringify({ expires: Date.now() + 30 * 86400000 }));
       setLoading(false);
       navigate("/home", { replace: true });
-    }, 1000);
+    }, 800);
   };
 
   const handleFailure = () => {
