@@ -6,6 +6,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import gogazLogoDark from "@/assets/gogaz-logo-dark.jpg";
+import AdminBottomNav from "@/components/AdminBottomNav";
 
 interface Order {
   id: string;
