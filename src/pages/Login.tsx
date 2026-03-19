@@ -122,12 +122,7 @@ const Login = () => {
           </Button>
         </div>
 
-        <button
-          onClick={() => navigate("/driver/home")}
-          className="mt-8 self-center text-xs text-muted-foreground underline underline-offset-2"
-        >
-          Espace livreur
-        </button>
+        {/* Role-based login: admin@gogaz.com or livreur@gogaz.com with password 123456 */}
       </div>
     </div>
   );
