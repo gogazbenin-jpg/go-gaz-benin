@@ -24,6 +24,7 @@ import DriverHistory from "./pages/DriverHistory";
 import DriverProfile from "./pages/DriverProfile";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminFinances from "./pages/AdminFinances";
 import Profile from "./pages/Profile";
 import BrandDetail from "./pages/BrandDetail";
 import OrderPage from "./pages/OrderPage";
